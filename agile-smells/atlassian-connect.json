@@ -1,9 +1,9 @@
 {
-    "key": "my-add-on",
-    "name": "Ping Pong",
-    "description": "My very first add-on",
+    "key": "agile-smells",
+    "name": "Agile Smells",
+    "description": "Something doesn't smell right about your agile practices? These charts can point you in the right direction",
     "vendor": {
-        "name": "Angry Nerds",
+        "name": "Brand Name Software",
         "url": "https://www.atlassian.com/angrynerds"
     },
     "baseUrl": "{{localBaseUrl}}",
@@ -18,7 +18,7 @@
         "installed": "/installed"
     },
     "scopes": [
-        "READ"
+        "read"
     ],
     "modules": {
         "generalPages": [
