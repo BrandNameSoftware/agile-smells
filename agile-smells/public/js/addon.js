@@ -38,6 +38,8 @@ function setData() {
   getAllSprints(boardID);
 }
 
+var addedIssues = {};
+
 function getAllSprints(boardID) {
   //TODO: this breaks if there are more than 50 sprints. This should be tied to when we let them configure the number of sprints to look back and don't let them choose greater than 50
   AP.request({
@@ -53,7 +55,7 @@ function getAllSprints(boardID) {
           /*there are 2 ways we have to check for added stories
         	* If created after a sprint started and it's in a sprint
         	* The latest changelog with a sprint modification added it to a sprint after the sprint was started*/
-          var addedStories = getStoriesAdded(response.values[i].id);
+          setStoriesAdded(response.values[i].id);
           //this might be a race condition since it's an async call
         }
       },
@@ -63,12 +65,7 @@ function getAllSprints(boardID) {
     });
 }
 
-var addedIssues = [];
-
-function getStoriesAdded(sprintID) {
-  var addedIssues = [];
-  var issues = [];
-  console.log('getStoriesAdded1');
+function setStoriesAdded(sprintID) {
   AP.request({
       //TODO: breaks after 50 issues, need pagination
       //future sprints are not needed
@@ -78,55 +75,53 @@ function getStoriesAdded(sprintID) {
         console.log(arguments);
       }
     });
-  return addedIssues;
 }
 
 function checkForAddedIssues(response) {
   // convert the string response to JSON
   response = JSON.parse(response);
 
-
   for (var i = 0; i < response.issues.length; i++) {
-    var isAdded = false;
     var issue = response.issues[i];
-    isAdded = checkActiveSprintAsPartOfCreation(issue);
-    if(!isAdded) {
-      isAdded = isAdded || checkClosedSprintAsPartOfCreation(issue);
-    }
-    if(!isAdded) {
-      isAdded = isAdded || checkAddedToActiveSprintAfterCreated(issue);
-    }
-    if(!isAdded) {
-      isAdded = isAdded || checkAddedToClosedSprintAfterCreated(issue);
-    }
-
-    if(isAdded) {
-      console.log('Added issue: ' + issue.key)
-      addedIssues.push(issue);
-    }
+    checkActiveSprintAsPartOfCreation(issue);
+    checkClosedSprintAsPartOfCreation(issue);
+    checkAddedToActiveSprintAfterCreated(issue);
+    checkAddedToClosedSprintAfterCreated(issue);
   }
+  console.log(addedIssues);
 }
 
 function checkActiveSprintAsPartOfCreation(issue) {
-  var createdTimestamp = issue.fields.created;
-  var sprintCreatedTimestamp = issue.fields.sprint.startDate;
-  if (createdTimestamp > sprintCreatedTimestamp) {
-    return true;
+  if(issue.fields.sprint != null) {
+    checkSprintAsPartOfCreation(issue, issue.fields.sprint)
   }
-  else {
-    return false;
+}
+
+function checkSprintAsPartOfCreation(issue, sprint) {
+  var createdTimestamp = issue.fields.created;
+  var sprintCreatedTimestamp = sprint.startDate;
+  if (createdTimestamp > sprintCreatedTimestamp) {
+    addedIssues[sprint.id + '-' + issue.id] = issue.key;
   }
 }
 
 function checkClosedSprintAsPartOfCreation(issue) {
-  return false;
+  if(issue.fields.closedSprints != null) {
+    for(var i = 0; i <issue.fields.closedSprints.length; i++) {
+      checkSprintAsPartOfCreation(issue, issue.fields.closedSprints[i]);
+    }
+  }
 }
 
 function checkAddedToActiveSprintAfterCreated(issue) {
-  var isAdded = false;
+  if(issue.fields.sprint != null) {
+    checkAddedToSprintAfterCreated(issue, issue.fields.sprint);
+  }
+}
 
-  var activeSprintName = issue.fields.sprint.name;
-  var sprintCreatedTimestamp = issue.fields.sprint.startDate;
+function checkAddedToSprintAfterCreated(issue, sprint) {
+var sprintName = sprint.name;
+  var sprintCreatedTimestamp = sprint.startDate;
   for(var i = 0; i < issue.changelog.histories.length; i++) {
     var currentHistory = issue.changelog.histories[i];
     for(var j = 0; j < currentHistory.items.length; j++) {
@@ -135,18 +130,19 @@ function checkAddedToActiveSprintAfterCreated(issue) {
       if(fieldChange == "Sprint") {
         var timestampOfChange = currentHistory.created;
         var sprintString = historyItem.toString;
-        if(sprintString.includes(activeSprintName) && timestampOfChange > sprintCreatedTimestamp) {
-          isAdded = true;
-          return isAdded;
+        if(sprintString.includes(sprintName) && timestampOfChange > sprintCreatedTimestamp) {
+          addedIssues[sprint.id + '-' + issue.id] = issue.key;
+          return;
         }
       }
     }
   }
-  return isAdded;
 }
 
 function checkAddedToClosedSprintAfterCreated(issue) {
-  //TODO: Handle the null case for the checkAddedToActiveSprintAfterCreated function
-
-    return false;
+  if(issue.fields.closedSprints != null) {
+    for(var i = 0; i <issue.fields.closedSprints.length; i++) {
+      checkAddedToSprintAfterCreated(issue, issue.fields.closedSprints[i]);
+    }
+  }
 }
