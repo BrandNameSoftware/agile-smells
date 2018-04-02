@@ -14,6 +14,8 @@
     "errorhandler": "^1.4.2",
     "express": "^4.13.3",
     "express-hbs": "*",
+    "moment": "^2.22.0",
+    "moment-timezone": "^0.5.14",
     "morgan": "^1.6.1",
     "request": "^2.85.0",
     "static-expiry": ">=0.0.5"
