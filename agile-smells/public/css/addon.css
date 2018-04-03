@@ -14,11 +14,19 @@
   height: 100px;
 }
 
-.chart div {
+.bar {
+  fill: steelblue;
+  stroke: black;
+  stroke-width: '1';
+}
+
+.axis text {
   font: 10px sans-serif;
-  background-color: steelblue;
-  text-align: right;
-  padding: 3px;
-  margin: 1px;
-  color: white;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
 }

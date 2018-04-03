@@ -1,35 +1,3 @@
-function drawExampleChart()
-{
-  var data = [30, 86, 168, 281, 303, 365];
-
-d3.select(".chart")
-  .selectAll("div")
-  .data(data)
-    .enter()
-    .append("div")
-    .style("width", function(d) { return d + "px"; })
-    .text(function(d) { return d; });
-}
-function doStuff(response){
-  // convert the string response to JSON
-  response = JSON.parse(response);
-
-  // dump out the response to the console
-  console.log('project - ' + response);
-}
-
-function testQueryJIRA() {
-  AP.require('request', function(request) {
-    request({
-      url: '/rest/api/2/issue/KT-1',
-      success: doStuff,
-      error: function() {
-        console.log(arguments);
-      }
-    });
-  });
-}
-
 function setData() {
 
   //var rapidViewID = getRapidViewID(projectKey);
@@ -56,6 +24,7 @@ function getAllSprints(boardID) {
           /*there are 2 ways we have to check for added stories
         	* If created after a sprint started and it's in a sprint
         	* The latest changelog with a sprint modification added it to a sprint after the sprint was started*/
+          addedIssues[response.values[i].name] = {};
           setStoriesAdded(response.values[i].id);
           //this might be a race condition since it's an async call
         }
@@ -106,13 +75,7 @@ function checkSprintAsPartOfCreation(issue, sprint) {
   var createdTimestamp = moment(issue.fields.created).tz(timeZone);
   var sprintCreatedTimestamp = moment(sprint.startDate);
   if (createdTimestamp > sprintCreatedTimestamp) {
-    if(addedIssues[sprint.id] == null) {
-      addedIssues[sprint.id] = {};
-      addedIssues[sprint.id][issue.id] = issue.key;//{id:issue.id, key:issue.key};
-    }
-    else {
-      addedIssues[sprint.id][issue.id] = issue.key;
-    }
+    addedIssues[sprint.name][issue.id] = issue;
   }
 }
 
@@ -146,13 +109,7 @@ var sprintName = sprint.name;
         var timestampOfChange = moment(currentHistory.created).tz(timeZone);
         var sprintString = historyItem.toString;
         if(sprintString.includes(sprintName) && timestampOfChange > moment(sprintStartDate)) {
-          if(addedIssues[sprint.id] == null) {
-            addedIssues[sprint.id] = {};
-            addedIssues[sprint.id][issue.id] = issue.key;//{id:issue.id, key:issue.key};
-          }
-          else {
-            addedIssues[sprint.id][issue.id] = issue.key;
-          }
+          addedIssues[sprint.name][issue.id] = issue;
           return;
         }
       }
