@@ -51,25 +51,17 @@ var chart = d3.select(".chart")
 
 function drawSprint(sprintData)
 {
-  var data = [
-    {name: "Locke",    value:  4},
-    {name: "Reyes",    value:  8},
-    {name: "Ford",     value: 15},
-    {name: "Jarrah",   value: 16},
-    {name: "Shephard", value: 23},
-    {name: "Kwon",     value: 42}
-  ];
 
   var margin = {top: 20, right: 30, bottom: 30, left: 40},
     width = 960 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
 
 var x = d3.scaleBand()
-    .domain(data.map(function(d) { return d.name; }))
+    .domain(sprintData.map(function(d) { return d; }))
     .range([0, width], .1);
 
 var y = d3.scaleLinear()
-    .domain([0, d3.max(data, function(d) { return d.value; })])
+    .domain([0, d3.max(data, function(d) { return Object.keys(d).length;})])
     .range([height, 0]);
 
 var chart = d3.select(".chart")
@@ -94,7 +86,7 @@ var chart = d3.select(".chart")
       .data(data)
     .enter().append("rect")
       .attr("class", "bar")
-      .attr("x", function(d) { return x(d.name); })
+      .attr("x", function(d) { return x(d.sprintName); })
       .attr("y", function(d) { return y(d.value); })
       .attr("height", function(d) { return height - y(d.value); })
       .attr("width", x.bandwidth()*.9);

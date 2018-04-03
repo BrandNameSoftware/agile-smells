@@ -10,6 +10,7 @@ var addedIssues = {};
 var currentProcessingSprintID = 0;
 
 function getAllSprints(boardID) {
+  var sprintsToProcess = [];
   //TODO: this breaks if there are more than 50 sprints. This should be tied to when we let them configure the number of sprints to look back and don't let them choose greater than 50
   AP.request({
       //future sprints are not needed
@@ -21,13 +22,17 @@ function getAllSprints(boardID) {
 
         for(var i = 0; i < response.values.length; i++)
         {
-          /*there are 2 ways we have to check for added stories
-        	* If created after a sprint started and it's in a sprint
-        	* The latest changelog with a sprint modification added it to a sprint after the sprint was started*/
-          addedIssues[response.values[i].name] = {};
-          setStoriesAdded(response.values[i].id);
-          //this might be a race condition since it's an async call
+          sprintsToProcess.push(response.values[i].id);
         }
+
+        var addedStoriesPromises = sprintsToProcess.map(setStoriesAdded);
+
+        Promise.all(addedStoriesPromises).then(function() {
+          console.log(addedIssues);
+          drawSprint(addedIssues);
+        }).catch(function(){
+          console.log("error");
+        })
       },
       error: function() {
         console.log(arguments);
@@ -36,17 +41,21 @@ function getAllSprints(boardID) {
 }
 
 function setStoriesAdded(currentProcessingSprintID) {
-  AP.request({
-      //TODO: breaks after 50 issues, need pagination
-      //future sprints are not needed
-      url: '/rest/agile/1.0/sprint/' + currentProcessingSprintID + '/issue?expand=changelog&fields=changelog,sprint,created,closedSprints,creator',
-      success: function(response) {
-        checkForAddedIssues(response, currentProcessingSprintID);
-      },
-      error: function() {
-        console.log(arguments);
-      }
+  return new Promise(function(resolve, reject) {
+    AP.request({
+        //TODO: breaks after 50 issues, need pagination
+        //future sprints are not needed
+        url: '/rest/agile/1.0/sprint/' + currentProcessingSprintID + '/issue?expand=changelog&fields=changelog,sprint,created,closedSprints,creator',
+        success: function(response) {
+          checkForAddedIssues(response, currentProcessingSprintID);
+          resolve(response);
+        },
+        error: function() {
+          console.log(arguments);
+          reject(arguments);
+        }
     });
+  });
 }
 
 function checkForAddedIssues(response, currentProcessingSprintID) {
@@ -55,12 +64,15 @@ function checkForAddedIssues(response, currentProcessingSprintID) {
 
   for (var i = 0; i < response.issues.length; i++) {
     var issue = response.issues[i];
+
+      /*there are 2 ways we have to check for added stories
+      * If created after a sprint started and it's in a sprint
+      * The latest changelog with a sprint modification added it to a sprint after the sprint was started*/
     checkActiveSprintAsPartOfCreation(issue, currentProcessingSprintID);
     checkClosedSprintAsPartOfCreation(issue, currentProcessingSprintID);
     checkAddedToActiveSprintAfterCreated(issue, currentProcessingSprintID);
     checkAddedToClosedSprintAfterCreated(issue, currentProcessingSprintID);
   }
-  console.log(addedIssues);
 }
 
 function checkActiveSprintAsPartOfCreation(issue, currentProcessingSprintID) {
@@ -75,6 +87,9 @@ function checkSprintAsPartOfCreation(issue, sprint) {
   var createdTimestamp = moment(issue.fields.created).tz(timeZone);
   var sprintCreatedTimestamp = moment(sprint.startDate);
   if (createdTimestamp > sprintCreatedTimestamp) {
+    if(addedIssues[sprint.name] == null){
+      addedIssues[sprint.name] = {};
+    }
     addedIssues[sprint.name][issue.id] = issue;
   }
 }
@@ -109,6 +124,9 @@ var sprintName = sprint.name;
         var timestampOfChange = moment(currentHistory.created).tz(timeZone);
         var sprintString = historyItem.toString;
         if(sprintString.includes(sprintName) && timestampOfChange > moment(sprintStartDate)) {
+          if(addedIssues[sprint.name] == null){
+            addedIssues[sprint.name] = {};
+          }
           addedIssues[sprint.name][issue.id] = issue;
           return;
         }
