@@ -22,7 +22,7 @@ function getAllSprints(boardID) {
 
         for(var i = 0; i < response.values.length; i++)
         {
-          sprintsToProcess.push(response.values[i].id);
+          sprintsToProcess.push(response.values[i]);
         }
 
         var addedStoriesPromises = sprintsToProcess.map(setStoriesAdded);
@@ -66,14 +66,15 @@ function getLabelValuesForGraphing() {
   return valuesToGraph;
 }
 
-function setStoriesAdded(currentProcessingSprintID) {
+function setStoriesAdded(currentProcessingSprint) {
   return new Promise(function(resolve, reject) {
     AP.request({
         //TODO: breaks after 50 issues, need pagination
         //future sprints are not needed
-        url: '/rest/agile/1.0/sprint/' + currentProcessingSprintID + '/issue?expand=changelog&fields=changelog,sprint,created,closedSprints,creator',
+        url: '/rest/agile/1.0/sprint/' + currentProcessingSprint.id + '/issue?expand=changelog&fields=changelog,sprint,created,closedSprints,creator',
         success: function(response) {
-          checkForAddedIssues(response, currentProcessingSprintID);
+          addedIssues[currentProcessingSprint.id + "-" + currentProcessingSprint.name] = {};
+          checkForAddedIssues(response, currentProcessingSprint.id);
           resolve(response);
         },
         error: function() {
@@ -113,9 +114,6 @@ function checkSprintAsPartOfCreation(issue, sprint) {
   var createdTimestamp = moment(issue.fields.created).tz(timeZone);
   var sprintCreatedTimestamp = moment(sprint.startDate);
   if (createdTimestamp > sprintCreatedTimestamp) {
-    if(addedIssues[sprint.id + "-" + sprint.name] == null){
-      addedIssues[sprint.id + "-" + sprint.name] = {};
-    }
     addedIssues[sprint.id + "-" + sprint.name][issue.id] = issue;
   }
 }
@@ -150,9 +148,6 @@ var sprintName = sprint.name;
         var timestampOfChange = moment(currentHistory.created).tz(timeZone);
         var sprintString = historyItem.toString;
         if(sprintString.includes(sprintName) && timestampOfChange > moment(sprintStartDate)) {
-          if(addedIssues[sprint.id + "-" + sprint.name] == null){
-            addedIssues[sprint.id + "-" + sprint.name] = {};
-          }
           addedIssues[sprint.id + "-" + sprint.name][issue.id] = issue;
           return;
         }
