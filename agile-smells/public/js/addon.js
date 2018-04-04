@@ -29,15 +29,41 @@ function getAllSprints(boardID) {
 
         Promise.all(addedStoriesPromises).then(function() {
           console.log(addedIssues);
-          drawSprint(addedIssues);
-        }).catch(function(){
-          console.log("error");
+          var flattenedIssues = getLabelValuesForGraphing();
+          drawBarChart(flattenedIssues);
+        }).catch(function(error){
+          console.log(error);
         })
       },
       error: function() {
         console.log(arguments);
       }
     });
+}
+
+function getLabelValuesForGraphing() {
+  var valuesToGraph = [];
+  var sortedKeys = Object.keys(addedIssues).sort(function(a,b){
+    var key1 = a.substring(0, a.indexOf("-"));
+    var key2 = b.substring(0, b.indexOf("-"));
+    return key1 - key2;
+  });
+  for (var i = 0; i < sortedKeys.length; i++){
+    var issues = addedIssues[sortedKeys[i]];
+    var valueToGraph = {};
+    Object.defineProperties(valueToGraph, {
+      "label": {
+        value: sortedKeys[i].substring(sortedKeys[i].indexOf("-") + 1),
+        configurable: true
+      },
+      "value": {
+        value: Object.keys(issues).length,
+        configurable: true
+      }
+    });
+    valuesToGraph.push(valueToGraph);
+  }
+  return valuesToGraph;
 }
 
 function setStoriesAdded(currentProcessingSprintID) {
@@ -87,10 +113,10 @@ function checkSprintAsPartOfCreation(issue, sprint) {
   var createdTimestamp = moment(issue.fields.created).tz(timeZone);
   var sprintCreatedTimestamp = moment(sprint.startDate);
   if (createdTimestamp > sprintCreatedTimestamp) {
-    if(addedIssues[sprint.name] == null){
-      addedIssues[sprint.name] = {};
+    if(addedIssues[sprint.id + "-" + sprint.name] == null){
+      addedIssues[sprint.id + "-" + sprint.name] = {};
     }
-    addedIssues[sprint.name][issue.id] = issue;
+    addedIssues[sprint.id + "-" + sprint.name][issue.id] = issue;
   }
 }
 
@@ -124,10 +150,10 @@ var sprintName = sprint.name;
         var timestampOfChange = moment(currentHistory.created).tz(timeZone);
         var sprintString = historyItem.toString;
         if(sprintString.includes(sprintName) && timestampOfChange > moment(sprintStartDate)) {
-          if(addedIssues[sprint.name] == null){
-            addedIssues[sprint.name] = {};
+          if(addedIssues[sprint.id + "-" + sprint.name] == null){
+            addedIssues[sprint.id + "-" + sprint.name] = {};
           }
-          addedIssues[sprint.name][issue.id] = issue;
+          addedIssues[sprint.id + "-" + sprint.name][issue.id] = issue;
           return;
         }
       }
