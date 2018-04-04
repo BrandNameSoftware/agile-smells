@@ -1,9 +1,38 @@
 function setData() {
+  var projectID = getParameterByName('project.id');;
+  var rapidViewID = getAllBoards(projectID);
+}
 
-  //var rapidViewID = getRapidViewID(projectKey);
-  //TODO: Need to get the boardID dynamically. Likely tied to letting user configure which project.
-  var boardID = 1;
-  getAllSprints(boardID);
+
+function getAllBoards(projectID) {
+  var boardsToProcess = [];
+  //TODO: This breaks if there are more than 50 boards.
+  AP.request({
+      //future sprints are not needed
+      url: '/rest/agile/1.0/board/?projectKeyOrId=' + projectID,
+      success: function(response) {
+
+        // convert the string response to JSON
+        response = JSON.parse(response);
+
+        for(var i = 0; i < response.values.length; i++)
+        {
+          boardsToProcess.push(response.values[i].id);
+        }
+
+        var allSprintsPromises = boardsToProcess.map(getAllSprints);
+
+        Promise.all(allSprintsPromises).then(function() {
+          var flattenedIssues = getLabelValuesForGraphing();
+          drawBarChart(flattenedIssues);
+        }).catch(function(error){
+          console.log(error);
+        })
+      },
+      error: function() {
+        console.log(arguments);
+      }
+    });
 }
 
 var addedIssues = {};
@@ -12,7 +41,8 @@ var currentProcessingSprintID = 0;
 function getAllSprints(boardID) {
   var sprintsToProcess = [];
   //TODO: this breaks if there are more than 50 sprints. This should be tied to when we let them configure the number of sprints to look back and don't let them choose greater than 50
-  AP.request({
+  return new Promise(function(resolve, reject) {
+    AP.request({
       //future sprints are not needed
       url: '/rest/agile/1.0/board/' + boardID + '/sprint?state=active,closed',
       success: function(response) {
@@ -28,17 +58,17 @@ function getAllSprints(boardID) {
         var addedStoriesPromises = sprintsToProcess.map(setStoriesAdded);
 
         Promise.all(addedStoriesPromises).then(function() {
-          console.log(addedIssues);
-          var flattenedIssues = getLabelValuesForGraphing();
-          drawBarChart(flattenedIssues);
+          resolve(response);
         }).catch(function(error){
           console.log(error);
         })
       },
       error: function() {
         console.log(arguments);
+        reject(arguments);
       }
     });
+  });
 }
 
 function getLabelValuesForGraphing() {

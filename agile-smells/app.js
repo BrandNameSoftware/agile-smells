@@ -8,6 +8,7 @@ var bodyParser = require('body-parser');
 var compression = require('compression');
 var cookieParser = require('cookie-parser');
 var errorHandler = require('errorhandler');
+var url = require('url');
 var morgan = require('morgan');
 // You need to load `atlassian-connect-express` to use her godly powers
 var ac = require('atlassian-connect-express');

@@ -21,18 +21,19 @@
         "read"
     ],
     "modules": {
-        "generalPages": [
-            {
-                "key": "hello-world-page-jira",
-                "location": "system.top.navigation.bar",
-                "name": {
-                    "value": "Hello World"
-                },
-                "url": "/graph",
-                "conditions": [{
-                    "condition": "user_is_logged_in"
-                }]
-            }
-        ]
+        "jiraReports": [
+        {
+          "key": "issues-added-to-sprints-report",
+          "name": {
+      		    "value": "Issues added to sprints"
+        	},
+        	"description": {
+        		"value": "Issues added to sprints"
+        	},
+          "url": "/graph?project.key={project.key}&project.id={project.id}&view=reporting",
+          "reportCategory": "agile",
+          "thumbnailUrl": "/thumbnail.png"
+        }
+      ]
     }
 }
