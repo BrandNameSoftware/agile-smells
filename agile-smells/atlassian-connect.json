@@ -28,7 +28,7 @@
       		    "value": "Issues added to sprints"
         	},
         	"description": {
-        		"value": "Issues added to sprints"
+        		"value": "See how much scope is changing during an iteration. This will help understand if the team's goals are constantly changing."
         	},
           "url": "/graph?project.key={project.key}&project.id={project.id}&view=reporting",
           "reportCategory": "agile",
