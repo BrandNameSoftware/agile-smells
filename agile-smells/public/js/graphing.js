@@ -51,10 +51,11 @@ var chart = d3.select(".chart")
 
 function drawBarChart(labelValueArray)
 {
-
+  var baseHeight = 100;
+  var baseWidth = 300;
   var margin = {top: 20, right: 30, bottom: 30, left: 40},
-    width = 600 - margin.left - margin.right,
-    height = 300 - margin.top - margin.bottom;
+    width = baseWidth - margin.left - margin.right,
+    height = baseHeight - margin.top - margin.bottom;
 
     var x = d3.scaleBand()
     .domain(labelValueArray.map(function(d) { return d.label; }))
@@ -67,7 +68,7 @@ function drawBarChart(labelValueArray)
 
     var chart = d3.select('.chart-container')
     .append("svg")
-    .attr('viewBox','0 0 '+ height +' '+ width)
+    .attr('viewBox','0 0 '+ baseWidth +' '+ baseHeight)
     .attr('preserveAspectRatio','xMinYMin meet')
     .append("g")
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
@@ -75,24 +76,24 @@ function drawBarChart(labelValueArray)
     var xAxis = d3.axisBottom(x);
     var yAxis = d3.axisLeft(y).ticks(d3.max(labelValueArray, function(d) { return d.value;}));
 
-  /*chart.append("g")
+  chart.append("g")
       .attr("class", "x axis")
       .attr("transform", "translate(0," + height + ")")
       .call(xAxis);
 
   chart.append("g")
       .attr("class", "y axis")
-      .call(yAxis);*/
+      .call(yAxis);
 
 
     // text label for the y axis
-  /*chart.append("text")
+  chart.append("text")
       .attr("transform", "rotate(-90)")
       .attr("y", 0 - margin.left)
       .attr("x",0 - (height / 2))
       .attr("dy", "1em")
       .attr("class", "axisLabel")
-      .text("Number of issues");*/
+      .text("Number of issues");
 
   chart.selectAll(".bar")
       .data(labelValueArray)

@@ -28,7 +28,7 @@
     text-transform: uppercase;
 }
 
-.chart {
-  width:50%;
-  height:50%;
+.chart-container {
+  width:80%;
+  height:80%;
 }
