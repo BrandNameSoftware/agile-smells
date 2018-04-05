@@ -1,0 +1,486 @@
+#jira.adg3 .ghx-label-1 {
+  color: #fff;
+  background-color: #BF2600;
+  border-color: #BF2600;
+}
+#jira.adg3 .ghx-label-2 {
+  color: #fff;
+  background-color: #FF8B00;
+  border-color: #FF8B00;
+}
+#jira.adg3 .ghx-label-3 {
+  color: #fff;
+  color: #42526E;
+  background-color: #FFF0B3;
+  border-color: #FFF0B3;
+}
+#jira.adg3 .ghx-label-4 {
+  color: #fff;
+  background-color: #2684FF;
+  border-color: #2684FF;
+}
+#jira.adg3 .ghx-label-5 {
+  color: #fff;
+  background-color: #008DA6;
+  border-color: #008DA6;
+}
+#jira.adg3 .ghx-label-6 {
+  color: #fff;
+  color: #42526E;
+  background-color: #ABF5D1;
+  border-color: #ABF5D1;
+}
+#jira.adg3 .ghx-label-7 {
+  color: #fff;
+  background-color: #8777D9;
+  border-color: #8777D9;
+}
+#jira.adg3 .ghx-label-8 {
+  color: #fff;
+  background-color: #403294;
+  border-color: #403294;
+}
+#jira.adg3 .ghx-label-9 {
+  color: #fff;
+  background-color: #FF7452;
+  border-color: #FF7452;
+}
+#jira.adg3 .ghx-label-10 {
+  color: #fff;
+  background-color: #4C9AFF;
+  border-color: #4C9AFF;
+}
+#jira.adg3 .ghx-label-11 {
+  color: #fff;
+  color: #42526E;
+  background-color: #79E2F2;
+  border-color: #79E2F2;
+}
+#jira.adg3 .ghx-label-12 {
+  color: #fff;
+  background-color: #7A869A;
+  border-color: #7A869A;
+}
+#jira.adg3 .ghx-label-13 {
+  color: #fff;
+  background-color: #57D9A3;
+  border-color: #57D9A3;
+}
+#jira.adg3 .ghx-label-14 {
+  color: #fff;
+  background-color: #FF8F73;
+  border-color: #FF8F73;
+}
+#jira.adg3 .aui-list .ghx-epic-palette .ghx-label-1 {
+  color: #fff;
+  background-color: #BF2600;
+  border-color: #BF2600;
+}
+#jira.adg3 .aui-list .ghx-epic-palette .ghx-label-2 {
+  color: #fff;
+  background-color: #FF8B00;
+  border-color: #FF8B00;
+}
+#jira.adg3 .aui-list .ghx-epic-palette .ghx-label-3 {
+  color: #fff;
+  color: #42526E;
+  background-color: #FFF0B3;
+  border-color: #FFF0B3;
+}
+#jira.adg3 .aui-list .ghx-epic-palette .ghx-label-4 {
+  color: #fff;
+  background-color: #2684FF;
+  border-color: #2684FF;
+}
+#jira.adg3 .aui-list .ghx-epic-palette .ghx-label-5 {
+  color: #fff;
+  background-color: #008DA6;
+  border-color: #008DA6;
+}
+#jira.adg3 .aui-list .ghx-epic-palette .ghx-label-6 {
+  color: #fff;
+  color: #42526E;
+  background-color: #ABF5D1;
+  border-color: #ABF5D1;
+}
+#jira.adg3 .aui-list .ghx-epic-palette .ghx-label-7 {
+  color: #fff;
+  background-color: #8777D9;
+  border-color: #8777D9;
+}
+#jira.adg3 .aui-list .ghx-epic-palette .ghx-label-8 {
+  color: #fff;
+  background-color: #403294;
+  border-color: #403294;
+}
+#jira.adg3 .aui-list .ghx-epic-palette .ghx-label-9 {
+  color: #fff;
+  background-color: #FF7452;
+  border-color: #FF7452;
+}
+#jira.adg3 .aui-list .ghx-epic-palette .ghx-label-10 {
+  color: #fff;
+  background-color: #4C9AFF;
+  border-color: #4C9AFF;
+}
+#jira.adg3 .aui-list .ghx-epic-palette .ghx-label-11 {
+  color: #fff;
+  color: #42526E;
+  background-color: #79E2F2;
+  border-color: #79E2F2;
+}
+#jira.adg3 .aui-list .ghx-epic-palette .ghx-label-12 {
+  color: #fff;
+  background-color: #7A869A;
+  border-color: #7A869A;
+}
+#jira.adg3 .aui-list .ghx-epic-palette .ghx-label-13 {
+  color: #fff;
+  background-color: #57D9A3;
+  border-color: #57D9A3;
+}
+#jira.adg3 .aui-list .ghx-epic-palette .ghx-label-14 {
+  color: #fff;
+  background-color: #FF8F73;
+  border-color: #FF8F73;
+}
+#jira.adg3 .aui-list .ghx-epic-palette .ghx-swatch {
+  cursor: pointer;
+  display: inline-block;
+  font-size: 12px;
+  height: 14px;
+  line-height: 13px;
+  text-align: center;
+  width: 14px;
+}
+.gh-labels .ghx-label-0,
+#jira.adg3 .aui-list .ghx-epic-palette .ghx-label-0,
+#gh .ghx-label-0,
+#jira .ghx-label-0 {
+  background-color: #fff;
+  border-color: #707070;
+  color: #707070;
+}
+.gh-labels .ghx-label-1,
+#jira.adg3 .aui-list .ghx-epic-palette .ghx-label-1,
+#gh .ghx-label-1,
+#jira .ghx-label-1 {
+  color: #fff;
+  background-color: #815b3a;
+  border-color: #815b3a;
+}
+.gh-labels .ghx-label-2,
+#jira.adg3 .aui-list .ghx-epic-palette .ghx-label-2,
+#gh .ghx-label-2,
+#jira .ghx-label-2 {
+  color: #fff;
+  background-color: #f79232;
+  border-color: #f79232;
+}
+.gh-labels .ghx-label-3,
+#jira.adg3 .aui-list .ghx-epic-palette .ghx-label-3,
+#gh .ghx-label-3,
+#jira .ghx-label-3 {
+  color: #fff;
+  background-color: #d39c3f;
+  border-color: #d39c3f;
+}
+.gh-labels .ghx-label-4,
+#jira.adg3 .aui-list .ghx-epic-palette .ghx-label-4,
+#gh .ghx-label-4,
+#jira .ghx-label-4 {
+  color: #fff;
+  background-color: #3b7fc4;
+  border-color: #3b7fc4;
+}
+.gh-labels .ghx-label-5,
+#jira.adg3 .aui-list .ghx-epic-palette .ghx-label-5,
+#gh .ghx-label-5,
+#jira .ghx-label-5 {
+  color: #fff;
+  background-color: #4a6785;
+  border-color: #4a6785;
+}
+.gh-labels .ghx-label-6,
+#jira.adg3 .aui-list .ghx-epic-palette .ghx-label-6,
+#gh .ghx-label-6,
+#jira .ghx-label-6 {
+  color: #fff;
+  background-color: #8eb021;
+  border-color: #8eb021;
+}
+.gh-labels .ghx-label-7,
+#jira.adg3 .aui-list .ghx-epic-palette .ghx-label-7,
+#gh .ghx-label-7,
+#jira .ghx-label-7 {
+  color: #fff;
+  background-color: #ac707a;
+  border-color: #ac707a;
+}
+.gh-labels .ghx-label-8,
+#jira.adg3 .aui-list .ghx-epic-palette .ghx-label-8,
+#gh .ghx-label-8,
+#jira .ghx-label-8 {
+  color: #fff;
+  background-color: #654982;
+  border-color: #654982;
+}
+.gh-labels .ghx-label-9,
+#jira.adg3 .aui-list .ghx-epic-palette .ghx-label-9,
+#gh .ghx-label-9,
+#jira .ghx-label-9 {
+  color: #fff;
+  background-color: #f15c75;
+  border-color: #f15c75;
+}
+.gh-labels .ghx-label-10,
+#jira.adg3 .aui-list .ghx-epic-palette .ghx-label-10,
+#gh .ghx-label-10,
+#jira .ghx-label-10 {
+  color: #fff;
+  background-color: #1a8cff;
+  border-color: #1a8cff;
+}
+.gh-labels .ghx-label-11,
+#jira.adg3 .aui-list .ghx-epic-palette .ghx-label-11,
+#gh .ghx-label-11,
+#jira .ghx-label-11 {
+  color: #fff;
+  background-color: #3eaee0;
+  border-color: #3eaee0;
+}
+.gh-labels .ghx-label-12,
+#jira.adg3 .aui-list .ghx-epic-palette .ghx-label-12,
+#gh .ghx-label-12,
+#jira .ghx-label-12 {
+  color: #fff;
+  background-color: #707070;
+  border-color: #707070;
+}
+.gh-labels .ghx-label-13,
+#jira.adg3 .aui-list .ghx-epic-palette .ghx-label-13,
+#gh .ghx-label-13,
+#jira .ghx-label-13 {
+  color: #fff;
+  background-color: #67ab49;
+  border-color: #67ab49;
+}
+.gh-labels .ghx-label-14,
+#jira.adg3 .aui-list .ghx-epic-palette .ghx-label-14,
+#gh .ghx-label-14,
+#jira .ghx-label-14 {
+  color: #fff;
+  background-color: #e3695f;
+  border-color: #e3695f;
+}
+.gh-labels .ghx-orphaned-subtask,
+#jira.adg3 .aui-list .ghx-epic-palette .ghx-orphaned-subtask,
+#gh .ghx-orphaned-subtask,
+#jira .ghx-orphaned-subtask {
+  background-color: white;
+  border-color: #a5b3c2;
+  color: #4a6785;
+}
+.ghx-issue-web-panel span.ghx-sub-info {
+  white-space: nowrap;
+}
+.ghx-issuetable {
+  background-color: #fff;
+  border-collapse: collapse;
+  margin: 8px 0;
+  width: 100%;
+}
+.ghx-issuetable thead th {
+  background-color: transparent;
+  border-bottom: 1px solid #bbb;
+  color: #999;
+  font-weight: 400;
+  padding: 3px 7px;
+  white-space: nowrap;
+}
+.ghx-issuetable thead .active {
+  color: #fff;
+}
+.ghx-issuetable thead .active:hover {
+  background-color: #bbb;
+}
+.ghx-issuetable .rowHeader,
+.ghx-issuetable .rowNormal,
+.ghx-issuetable .rowAlternate {
+  background-color: transparent;
+}
+.ghx-issuetable th,
+.ghx-issuetable td {
+  overflow: hidden;
+}
+.ghx-issuetable > td {
+  color: #333;
+}
+.ghx-issuetable img {
+  vertical-align: middle;
+}
+.ghx-issuetable td {
+  line-height: 1.286;
+  padding: 5px 7px;
+}
+.ghx-issuetable .nav {
+  border-bottom: 1px solid #ccc;
+  vertical-align: top;
+}
+/* min-width */
+.ghx-issuetable .issuetype,
+.ghx-issuetable .issuekey,
+.ghx-issuetable .priority,
+.ghx-issuetable .status {
+  white-space: nowrap;
+  width: 16px;
+}
+.msie .ghx-issuetable .issuekey,
+.msie .ghx-issuetable .status {
+  width: 1%;
+}
+/* tight-width */
+.ghx-issuetable .resolution,
+.ghx-issuetable .created,
+.ghx-issuetable .updated {
+  max-width: 25em;
+  white-space: nowrap;
+}
+/* generous-width */
+.ghx-issuetable .assignee,
+.ghx-issuetable .reporter,
+.ghx-issuetable .versions,
+.ghx-issuetable .components,
+.ghx-issuetable .fixVersions {
+  max-width: 60em;
+  min-width: 80px;
+}
+.ghx-issuetable td.assignee > a {
+  color: #000;
+  white-space: nowrap;
+  word-wrap: normal;
+}
+.ghx-issuetable .versions .tinylink,
+.ghx-issuetable .components .tinylink,
+.ghx-issuetable .fixVersions .tinylink {
+  white-space: nowrap;
+}
+/* wide (summary) */
+.ghx-issuetable .summary > p,
+.ghx-issuetable .description > p {
+  min-width: 200px;
+  margin: 0;
+  max-width: 1400px;
+  white-space: normal;
+}
+.ghx-issuetable .issueCount {
+  text-align: center;
+}
+.ghx-issuetable .issuerow:hover {
+  background-color: #f0f0f0;
+}
+/* actions 'cog' menus */
+.ghx-issuetable .issue_actions {
+  width: 18px;
+}
+.ghx-issuetable .issue_actions a.icon-tools-small {
+  background: url("images/jira/tools_20.png") no-repeat 0 -1px;
+}
+.ghx-issuetable .issue_actions a.icon-tools-small.loading {
+  background: url("images/jira/wait-blue.gif") no-repeat 1px 1px;
+}
+.ghx-issuetable .issue_actions .aui-dd-parent {
+  height: 18px;
+  width: 32px;
+}
+.ghx-issuetable .issue_actions a.aui-dd-link {
+  padding: 0 0 0 19px;
+  position: absolute;
+  left: -9000px;
+  top: -9000px;
+}
+.ghx-issuetable .issue_actions a.active,
+.ghx-issuetable .issuerow.focused .issue_actions a.aui-dd-link,
+.ghx-issuetable .issuerow:hover .issue_actions a.aui-dd-link {
+  left: 0;
+  top: 0;
+}
+.ghx-issuetable .issue_actions a.aui-dd-link span {
+  background-image: url(images/jira/menu_indicator_for_light_backgrounds.gif);
+  display: block;
+  width: 15px;
+  height: 18px;
+  background-position: 2px 7px;
+  text-indent: -9000px;
+  overflow: hidden;
+}
+.ghx-issuetable .issue_actions a.aui-dd-link:hover span,
+.ghx-issuetable .issue_actions a.aui-dd-link.active span {
+  background-image: url(images/jira/menu_indicator_for_dark_backgrounds.gif);
+}
+.ghx-issuetable .issue_actions a.aui-dd-link:hover,
+.ghx-issuetable .issue_actions a.aui-dd-link.active {
+  background-color: #3c78b5;
+  color: #fff;
+}
+.ghx-issuetable .ghx-accept {
+  background: transparent url(images/jira/accept.png) no-repeat 100% 50%;
+  display: inline-block;
+  padding: 0 18px 0 0;
+}
+.ghx-issuetable .ghx-minimal {
+  white-space: nowrap;
+  width: 1px;
+}
+.ghx-issuetable .ghx-minimal.ghx-alt {
+  padding-right: 0;
+  padding-left: 0;
+}
+.ghx-issuetable .ghx-summary {
+  min-width: 200px;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 0;
+}
+.ghx-sprint-picker-scope-warning {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  max-width: 500px;
+}
+#issue-content .ghx-sprint-picker-scope-warning {
+  max-width: none;
+  margin-left: -5px;
+  margin-right: 45px;
+}
+.ghx-sprint-picker-meta {
+  color: #707070;
+}
+.aui-list-item.active .ghx-sprint-picker-meta {
+  color: #f5f5f5;
+}
+.ghx-sprint-multiselect-meta {
+  font-size: 12px;
+  color: #707070;
+}
+.aui-list .aui-list-item.active a.ghx-epic-menu-header {
+  background-color: transparent;
+  color: #333;
+  cursor: default;
+  text-decoration: none;
+}
+.aui-list .aui-list-item.active a.ghx-epic-menu-header span {
+  color: #fff;
+}
+.aui-list .aui-list-item a.ghx-epic-menu-header li h5 {
+  float: left;
+  padding: 0;
+}
+.aui-list .aui-list-item a.ghx-epic-menu-header li label {
+  float: right;
+}
+.aui-list .aui-list-item .epic-menu-metadata {
+  color: #707070;
+  font-size: 12px;
+}

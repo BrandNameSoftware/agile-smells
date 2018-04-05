@@ -1,0 +1,28 @@
+{{!< layout}}
+<script src="{{furl '/js/moment.js'}}"></script>
+<script src="{{furl '/js/moment-timezone-with-data.js'}}"></script>
+<script id="connect-loader" data-options="sizeToParent:true;">
+  setData();
+</script>
+
+<div id="page-container" class="ghx-gh ghx-no-touch aui-page-panel">
+  <h1>
+    <span class="subnav-container">
+      <span id="subnav-title">
+        <span class="subnavigator-title" title="Issues Added to Sprints">Issues Added to Sprints</span>
+      </span>
+    </span>
+  </h1>
+
+  <div class="aui-item">
+    <h4 class="ghx-margine-none">
+      <span class="ghx-iconfont ghx-iconfont-inactive aui-icon aui-icon-small aui-iconfont-help ghx-margin-right"></span>
+      How to read this chart
+    </h4>
+    <p>See how many stories are getting pulled into your sprints after they've been started. This helps you determine whether the team's sprint commitments are valid or whether the goal keeps getting changed. Ideally, there should be no data shown here (indicating no changed scope inside an iteration).</p>
+    <p><button class="aui-button aui-button-link js-chart-intro-toggle">Hide this information</button></p>
+  </div>
+
+  <div class="chart"></div>
+
+</div>

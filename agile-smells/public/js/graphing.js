@@ -81,13 +81,13 @@ function drawExampleChart() {
 }
 
 function drawBarChart(labelValueArray) {
-  var baseHeight = 200;
+  var baseHeight = 150;
   var baseWidth = 300;
   var margin = {
-      top: 20,
+      top: 10,
       right: 30,
       bottom: 30,
-      left: 40
+      left: 20
     },
     width = baseWidth - margin.left - margin.right,
     height = baseHeight - margin.top - margin.bottom;
@@ -132,7 +132,7 @@ function drawBarChart(labelValueArray) {
     .attr("transform", "rotate(-90)")
     .attr("y", 0 - margin.left)
     .attr("x", 0 - (height / 2))
-    .attr("dy", "4em")
+    .attr("dy", ".8em")
     .attr("class", "axisLabel")
     .text("Number of issues");
 
