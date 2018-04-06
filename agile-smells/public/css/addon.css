@@ -6,11 +6,8 @@
 
 .bar:hover {
   fill: white ;
-  border-style: solid;
-  border-width: .03em;
-  border-radius: 2px;
-  stroke-width: .5;
-  bordercolor: #14892c;
+  stroke: #14892c;
+  stroke-width: .9;
 }
 
 .axis text {
