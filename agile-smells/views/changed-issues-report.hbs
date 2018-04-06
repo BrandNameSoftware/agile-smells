@@ -15,12 +15,15 @@
   </h1>
 
   <div class="aui-item">
-    <h4 class="ghx-margine-none">
+    <div id="collapse-content" class="collapse in">
+      <h4 class="ghx-margine-none">
       <span class="ghx-iconfont ghx-iconfont-inactive aui-icon aui-icon-small aui-iconfont-help ghx-margin-right"></span>
       How to read this chart
     </h4>
-    <p>See how many stories are getting pulled into your sprints after they've been started. This helps you determine whether the team's sprint commitments are valid or whether the goal keeps getting changed. Ideally, there should be no data shown here (indicating no changed scope inside an iteration).</p>
-    <p><button class="aui-button aui-button-link js-chart-intro-toggle">Hide this information</button></p>
+      <p>See how many stories are getting pulled into your sprints after they've been started. This helps you determine whether the team's sprint commitments are valid or whether the goal keeps getting changed. Ideally, there should be no data shown here
+        (indicating no changed scope inside an iteration).</p>
+    </div>
+    <p><a onclick='collapseDiv()' class="aui-button aui-button-link js-chart-intro-toggle">Hide this information</a></p>
   </div>
 
   <div class="chart"></div>
