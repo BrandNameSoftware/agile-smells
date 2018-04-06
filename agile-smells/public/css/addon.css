@@ -4,6 +4,15 @@
   fill: #14892c;
 }
 
+.bar:hover {
+  fill: white ;
+  border-style: solid;
+  border-width: .03em;
+  border-radius: 2px;
+  stroke-width: .5;
+  bordercolor: #14892c;
+}
+
 .axis text {
   font-size: .4em;
   font-weight: 400;
