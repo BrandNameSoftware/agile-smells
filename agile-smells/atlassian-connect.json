@@ -30,8 +30,9 @@
         	"description": {
         		"value": "See how much scope is changing during an iteration. This will help understand if the team's goals are constantly in flux."
         	},
-          "url": "/changed-issues-report?project.key={project.key}&project.id={project.id}&view=reporting",
+          "url": "/changed-issues-report?project.key={project.key}&project.id={project.id}&board.id={board.id}",
           "reportCategory": "agile",
+          "configurable": true,
           "thumbnailUrl": "/thumbnail.png"
         }
       ]

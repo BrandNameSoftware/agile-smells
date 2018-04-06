@@ -1,86 +1,4 @@
-function drawExampleChart() {
-  var data = [{
-      name: "Locke",
-      value: 4
-    },
-    {
-      name: "Reyes",
-      value: 8
-    },
-    {
-      name: "Ford",
-      value: 15
-    },
-    {
-      name: "Jarrah",
-      value: 16
-    },
-    {
-      name: "Shephard",
-      value: 23
-    },
-    {
-      name: "Kwon",
-      value: 42
-    }
-  ];
-
-  var margin = {
-      top: 20,
-      right: 30,
-      bottom: 30,
-      left: 40
-    },
-    width = 960 - margin.left - margin.right,
-    height = 500 - margin.top - margin.bottom;
-
-  var x = d3.scaleBand()
-    .domain(data.map(function(d) {
-      return d.name;
-    }))
-    .range([0, width], .1);
-
-  var y = d3.scaleLinear()
-    .domain([0, d3.max(data, function(d) {
-      return d.value;
-    })])
-    .range([height, 0]);
-
-  var chart = d3.select(".chart")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
-    .append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-  var xAxis = d3.axisBottom(x);
-  var yAxis = d3.axisLeft(y);
-
-  chart.append("g")
-    .attr("class", "x axis")
-    .attr("transform", "translate(0," + height + ")")
-    .call(xAxis);
-
-  chart.append("g")
-    .attr("class", "y axis")
-    .call(yAxis);
-
-  chart.selectAll(".bar")
-    .data(data)
-    .enter().append("rect")
-    .attr("class", "bar")
-    .attr("x", function(d) {
-      return x(d.name);
-    })
-    .attr("y", function(d) {
-      return y(d.value);
-    })
-    .attr("height", function(d) {
-      return height - y(d.value);
-    })
-    .attr("width", x.bandwidth() * .9);
-}
-
-function drawBarChart(labelValueArray) {
+function drawBarChart(labelValueArray, projectKey, sprintIDMapping, boardID) {
   var baseHeight = 150;
   var baseWidth = 300;
   var margin = {
@@ -117,6 +35,16 @@ function drawBarChart(labelValueArray) {
     return d.value;
   }));
 
+
+  var tip = d3.tip()
+    .attr('class', 'd3-tip')
+    .offset([-10, 0])
+    .html(function(d) {
+      return "<strong>Scope change</strong><br></br><span>Issues Added </span><span class='tooltipValue'>" + d.value + "</span>";
+    });
+
+  chart.call(tip);
+
   chart.append("g")
     .attr("class", "x axis")
     .attr("transform", "translate(0," + height + ")")
@@ -138,7 +66,11 @@ function drawBarChart(labelValueArray) {
 
   chart.selectAll(".bar")
     .data(labelValueArray)
-    .enter().append("rect")
+    .enter()
+    .append("a")
+    .attr("xlink:href", function(d) {return "https://brandnamesoftware.atlassian.net/secure/RapidBoard.jspa?rapidView=" + boardID + "&projectKey=" + projectKey + "&view=reporting&chart=sprintRetrospective&sprint=" + sprintIDMapping[d.label]})
+    .attr("target", function(d) {return "_parent"})
+    .append("rect")
     .attr("class", "bar")
     .attr("x", function(d) {
       return xScale(d.label);
@@ -149,5 +81,7 @@ function drawBarChart(labelValueArray) {
     .attr("height", function(d) {
       return height - yScale(d.value);
     })
-    .attr("width", xScale.bandwidth());
+    .attr("width", xScale.bandwidth())
+    .on('mouseover', tip.show)
+    .on('mouseout', tip.hide);
 }

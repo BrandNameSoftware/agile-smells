@@ -6,33 +6,34 @@ function setData() {
 
 function getAllBoards(projectID) {
   var boardsToProcess = [];
-  //TODO: This breaks if there are more than 50 boards.
+  //TODO: I shouldn't be having to loop through all boards, I should have the board ID from context parm. I think there's a bug
   AP.request({
-      //future sprints are not needed
-      url: '/rest/agile/1.0/board/?projectKeyOrId=' + projectID,
-      success: function(response) {
+    //future sprints are not needed
+    url: '/rest/agile/1.0/board/?projectKeyOrId=' + projectID,
+    success: function(response) {
 
-        // convert the string response to JSON
-        response = JSON.parse(response);
+      // convert the string response to JSON
+      response = JSON.parse(response);
 
-        for(var i = 0; i < response.values.length; i++)
-        {
-          boardsToProcess.push(response.values[i].id);
-        }
-
-        var allSprintsPromises = boardsToProcess.map(getAllSprints);
-
-        Promise.all(allSprintsPromises).then(function() {
-          var flattenedIssues = getLabelValuesForGraphing();
-          drawBarChart(flattenedIssues);
-        }).catch(function(error){
-          console.log(error);
-        })
-      },
-      error: function() {
-        console.log(arguments);
+      for (var i = 0; i < response.values.length; i++) {
+        boardsToProcess.push(response.values[i].id);
       }
-    });
+
+      var allSprintsPromises = boardsToProcess.map(getAllSprints);
+
+      Promise.all(allSprintsPromises).then(function() {
+        var flattenedIssues = getLabelValuesForGraphing();
+
+        var sprintMap = getNameToIDSprintsMap();
+        drawBarChart(flattenedIssues, projectID, sprintMap, response.values[0].id);
+      }).catch(function(error) {
+        console.log(error);
+      })
+    },
+    error: function() {
+      console.log(arguments);
+    }
+  });
 }
 
 var addedIssues = {};
@@ -50,8 +51,7 @@ function getAllSprints(boardID) {
         // convert the string response to JSON
         response = JSON.parse(response);
 
-        for(var i = 0; i < response.values.length; i++)
-        {
+        for (var i = 0; i < response.values.length; i++) {
           sprintsToProcess.push(response.values[i]);
         }
 
@@ -59,7 +59,7 @@ function getAllSprints(boardID) {
 
         Promise.all(addedStoriesPromises).then(function() {
           resolve(response);
-        }).catch(function(error){
+        }).catch(function(error) {
           console.log(error);
         })
       },
@@ -73,12 +73,12 @@ function getAllSprints(boardID) {
 
 function getLabelValuesForGraphing() {
   var valuesToGraph = [];
-  var sortedKeys = Object.keys(addedIssues).sort(function(a,b){
+  var sortedKeys = Object.keys(addedIssues).sort(function(a, b) {
     var key1 = a.substring(0, a.indexOf("-"));
     var key2 = b.substring(0, b.indexOf("-"));
     return key1 - key2;
   });
-  for (var i = 0; i < sortedKeys.length; i++){
+  for (var i = 0; i < sortedKeys.length; i++) {
     var issues = addedIssues[sortedKeys[i]];
     var valueToGraph = {};
     Object.defineProperties(valueToGraph, {
@@ -96,21 +96,31 @@ function getLabelValuesForGraphing() {
   return valuesToGraph;
 }
 
+function getNameToIDSprintsMap() {
+  var sprintMap = {};
+
+  for (var i = 0; i < Object.keys(addedIssues).length; i++) {
+    var sprintNameID = Object.keys(addedIssues)[i];
+    sprintMap[sprintNameID.substring(sprintNameID.indexOf("-") + 1)] = sprintNameID.substring(0, sprintNameID.indexOf("-"));
+  }
+  return sprintMap;
+}
+
 function setStoriesAdded(currentProcessingSprint) {
   return new Promise(function(resolve, reject) {
     AP.request({
-        //TODO: breaks after 50 issues, need pagination
-        //future sprints are not needed
-        url: '/rest/agile/1.0/sprint/' + currentProcessingSprint.id + '/issue?expand=changelog&fields=changelog,sprint,created,closedSprints,creator',
-        success: function(response) {
-          addedIssues[currentProcessingSprint.id + "-" + currentProcessingSprint.name] = {};
-          checkForAddedIssues(response, currentProcessingSprint.id);
-          resolve(response);
-        },
-        error: function() {
-          console.log(arguments);
-          reject(arguments);
-        }
+      //TODO: breaks after 50 issues, need pagination
+      //future sprints are not needed
+      url: '/rest/agile/1.0/sprint/' + currentProcessingSprint.id + '/issue?expand=changelog&fields=changelog,sprint,created,closedSprints,creator',
+      success: function(response) {
+        addedIssues[currentProcessingSprint.id + "-" + currentProcessingSprint.name] = {};
+        checkForAddedIssues(response, currentProcessingSprint.id);
+        resolve(response);
+      },
+      error: function() {
+        console.log(arguments);
+        reject(arguments);
+      }
     });
   });
 }
@@ -122,9 +132,9 @@ function checkForAddedIssues(response, currentProcessingSprintID) {
   for (var i = 0; i < response.issues.length; i++) {
     var issue = response.issues[i];
 
-      /*there are 2 ways we have to check for added stories
-      * If created after a sprint started and it's in a sprint
-      * The latest changelog with a sprint modification added it to a sprint after the sprint was started*/
+    /*there are 2 ways we have to check for added stories
+     * If created after a sprint started and it's in a sprint
+     * The latest changelog with a sprint modification added it to a sprint after the sprint was started*/
     checkActiveSprintAsPartOfCreation(issue, currentProcessingSprintID);
     checkClosedSprintAsPartOfCreation(issue, currentProcessingSprintID);
     checkAddedToActiveSprintAfterCreated(issue, currentProcessingSprintID);
@@ -133,7 +143,7 @@ function checkForAddedIssues(response, currentProcessingSprintID) {
 }
 
 function checkActiveSprintAsPartOfCreation(issue, currentProcessingSprintID) {
-  if(issue.fields.sprint != null && issue.fields.sprint.id == currentProcessingSprintID) {
+  if (issue.fields.sprint != null && issue.fields.sprint.id == currentProcessingSprintID) {
     checkSprintAsPartOfCreation(issue, issue.fields.sprint)
   }
 }
@@ -149,9 +159,9 @@ function checkSprintAsPartOfCreation(issue, sprint) {
 }
 
 function checkClosedSprintAsPartOfCreation(issue, currentProcessingSprintID) {
-  if(issue.fields.closedSprints != null) {
-    for(var i = 0; i <issue.fields.closedSprints.length; i++) {
-      if(issue.fields.closedSprints[i].id == currentProcessingSprintID) {
+  if (issue.fields.closedSprints != null) {
+    for (var i = 0; i < issue.fields.closedSprints.length; i++) {
+      if (issue.fields.closedSprints[i].id == currentProcessingSprintID) {
         checkSprintAsPartOfCreation(issue, issue.fields.closedSprints[i]);
       }
     }
@@ -159,25 +169,25 @@ function checkClosedSprintAsPartOfCreation(issue, currentProcessingSprintID) {
 }
 
 function checkAddedToActiveSprintAfterCreated(issue, currentProcessingSprintID) {
-  if(issue.fields.sprint != null && issue.fields.sprint.id == currentProcessingSprintID) {
+  if (issue.fields.sprint != null && issue.fields.sprint.id == currentProcessingSprintID) {
     checkAddedToSprintAfterCreated(issue, issue.fields.sprint);
   }
 }
 
 function checkAddedToSprintAfterCreated(issue, sprint) {
-var sprintName = sprint.name;
+  var sprintName = sprint.name;
   var sprintStartDate = sprint.startDate;
-  for(var i = 0; i < issue.changelog.histories.length; i++) {
+  for (var i = 0; i < issue.changelog.histories.length; i++) {
     var currentHistory = issue.changelog.histories[i];
-    for(var j = 0; j < currentHistory.items.length; j++) {
+    for (var j = 0; j < currentHistory.items.length; j++) {
       var historyItem = currentHistory.items[j];
       var fieldChange = historyItem.field;
-      if(fieldChange == "Sprint") {
+      if (fieldChange == "Sprint") {
         //thanks JIRA for storing some dates in UTC and some in local time. sprint start date is stored UTC
         var timeZone = currentHistory.author.timeZone;
         var timestampOfChange = moment(currentHistory.created).tz(timeZone);
         var sprintString = historyItem.toString;
-        if(sprintString.includes(sprintName) && timestampOfChange > moment(sprintStartDate)) {
+        if (sprintString.includes(sprintName) && timestampOfChange > moment(sprintStartDate)) {
           addedIssues[sprint.id + "-" + sprint.name][issue.id] = issue;
           return;
         }
@@ -187,9 +197,9 @@ var sprintName = sprint.name;
 }
 
 function checkAddedToClosedSprintAfterCreated(issue, currentProcessingSprintID) {
-  if(issue.fields.closedSprints != null) {
-    for(var i = 0; i <issue.fields.closedSprints.length; i++) {
-      if(issue.fields.closedSprints[i].id == currentProcessingSprintID) {
+  if (issue.fields.closedSprints != null) {
+    for (var i = 0; i < issue.fields.closedSprints.length; i++) {
+      if (issue.fields.closedSprints[i].id == currentProcessingSprintID) {
         checkAddedToSprintAfterCreated(issue, issue.fields.closedSprints[i]);
       }
     }
