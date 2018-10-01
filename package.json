@@ -2,7 +2,10 @@
   "name": "agile-smells",
   "version": "1.0.0",
   "description": "JIRA add-on for Agile reporting",
-  "main": "index.js",
+  "engines": {
+    "node": "8.12.0"
+  },
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
