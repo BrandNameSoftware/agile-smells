@@ -4,7 +4,7 @@
     "description": "Something doesn't smell right about your agile practices? These charts can point you in the right direction",
     "vendor": {
         "name": "Brand Name Software",
-        "url": "https://www.atlassian.com/angrynerds"
+        "url": ""
     },
     "baseUrl": "{{localBaseUrl}}",
     "links": {
