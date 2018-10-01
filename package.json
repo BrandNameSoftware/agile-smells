@@ -10,6 +10,9 @@
     "start": "node app.js",
     "test": "node app.js"
   },
+  "dependencies": {
+    "express": "^4.16.3"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/BrandNameSoftware/agile-smells.git"
