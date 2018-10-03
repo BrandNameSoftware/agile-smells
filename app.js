@@ -28,7 +28,7 @@ var staticDir = path.join(__dirname, 'public');
 // Anything in ./views are HBS templates
 var viewsDir = __dirname + '/views';
 // Your routes live here; this is the C in MVC
-var routes = require('/agile-smells/routes');
+var routes = require('./agile-smells/routes');
 // Bootstrap Express
 var app = express();
 // Bootstrap the `atlassian-connect-express` library
