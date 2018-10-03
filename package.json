@@ -5,10 +5,10 @@
   "engines": {
     "node": "8.12.0"
   },
-  "main": "app.js",
+  "main": "./agile-smells/app.js",
   "scripts": {
-    "start": "node app.js",
-    "test": "node app.js"
+    "start": "node ./agile-smells/app.js",
+    "test": "node ./agile-smells/app.js"
   },
   "dependencies": {
     "express": "^4.16.3",
