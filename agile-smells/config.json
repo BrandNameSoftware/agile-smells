@@ -17,7 +17,7 @@
         //Use 'unauthorized.hbs' template for displaying an error page
         "errorTemplate": true,
         // This is the public URL to your production add-on.
-        "localBaseUrl": "https://your-subdomain.herokuapp.com",
+        "localBaseUrl": "https://agile-smells.herokuapp.com/",
         // Make sure that your add-on can only be registered by the hosts on
         // these domains.
         "whitelist": [
