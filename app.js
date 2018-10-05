@@ -28,7 +28,7 @@ var staticDir = path.join(__dirname, 'public');
 // Anything in ./views are HBS templates
 var viewsDir = __dirname + '/views';
 // Your routes live here; this is the C in MVC
-var routes = require('./agile-smells/routes');
+var routes = require('./routes');
 // Bootstrap Express
 var app = express();
 // Bootstrap the `atlassian-connect-express` library
@@ -36,7 +36,7 @@ var addon = ac(app);
 // You can set this in `config.json`
 var port = addon.config.port();
 // Declares the environment to use in `config.json`
-var devEnv = app.get('env') == 'production';
+var devEnv = app.get('env') == 'development';
 
 // The following settings applies to all environments
 app.set('port', port);

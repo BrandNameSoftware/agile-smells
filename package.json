@@ -1,33 +1,27 @@
 {
-  "name": "agile-smells",
-  "version": "1.0.0",
-  "description": "JIRA add-on for Agile reporting",
-  "engines": {
-    "node": "8.12.0"
-  },
-  "main": "./agile-smells/app.js",
+  "name": "my-addon",
+  "version": "0.0.1",
+  "private": true,
   "scripts": {
-    "start": "node ./agile-smells/app.js",
-    "test": "node ./agile-smells/app.js"
+    "start": "node app.js"
   },
   "dependencies": {
-    "express": "^4.16.3",
-    "compression":"^1.7.2",
-    "cookie-parser":"^1.4.3",
-    "errorhandler":"^1.5.0",
-    "morgan":"^1.9.0",
-    "atlassian-connect-express":"^2.1.4",
-    "static-expiry":"^0.0.11",
-    "express-hbs":"^1.0.4"
+    "atlassian-connect-express": "^2.0.3",
+    "body-parser": "^1.14.2",
+    "compression": "^1.6.0",
+    "cookie-parser": "^1.4.0",
+    "d3": "^5.0.0",
+    "d3-scale": "^2.0.0",
+    "errorhandler": "^1.4.2",
+    "express": "^4.13.3",
+    "express-hbs": "*",
+    "git": "^0.1.5",
+    "moment": "^2.22.0",
+    "moment-timezone": "^0.5.14",
+    "morgan": "^1.6.1",
+    "npm": "^5.8.0",
+    "request": "^2.85.0",
+    "static-expiry": ">=0.0.5"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/BrandNameSoftware/agile-smells.git"
-  },
-  "author": "Matthew Brand",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/BrandNameSoftware/agile-smells/issues"
-  },
-  "homepage": "https://github.com/BrandNameSoftware/agile-smells#readme"
+  "devDependencies": {}
 }
