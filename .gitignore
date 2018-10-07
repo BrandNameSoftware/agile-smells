@@ -1,3 +1,5 @@
+credentials.json
+
 # Logs
 logs
 *.log
@@ -61,4 +63,3 @@ typings/
 *.idea
 .DS_Store
 *.pem
-credentials.json
