@@ -51,7 +51,7 @@ function getAllSprints(boardID) {
         // convert the string response to JSON
         response = JSON.parse(response);
 
-        for (var i = 0; i < response.values.length; i++) {
+        for (var i = 0; (i < response.values.length) && (i < maxSprints); i++) {
           sprintsToProcess.push(response.values[i]);
         }
 
