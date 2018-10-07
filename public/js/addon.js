@@ -108,14 +108,42 @@ function getNameToIDSprintsMap() {
 }
 
 function setStoriesAdded(currentProcessingSprint) {
+
+  return new Promise(function(resolve, reject) {
+    var sprintIssues = [];
+    getIssuesForSprint(currentProcessingSprint.id, 0, sprintIssues).then(function(){
+      addedIssues[currentProcessingSprint.id + "-" + currentProcessingSprint.name] = {};
+      checkForAddedIssues(sprintIssues, currentProcessingSprint.id);
+      resolve();
+    });
+  });
+}
+
+function getIssuesForSprint(sprintID, startAtIndex, sprintIssues) {
+  var startAtString = '';
+  if(typeof(startAtIndex) != undefined)
+  {
+    startAtString = '&startAt=' + startAtIndex;
+  }
+
   return new Promise(function(resolve, reject) {
     AP.request({
-      //TODO: breaks after 50 issues, need pagination
       //future sprints are not needed
-      url: '/rest/agile/1.0/sprint/' + currentProcessingSprint.id + '/issue?expand=changelog&fields=changelog,sprint,created,closedSprints,creator',
+      url: '/rest/agile/1.0/sprint/' + sprintID + '/issue?expand=changelog&fields=changelog,sprint,created,closedSprints,creator' + startAtString,
       success: function(response) {
-        addedIssues[currentProcessingSprint.id + "-" + currentProcessingSprint.name] = {};
-        checkForAddedIssues(response, currentProcessingSprint.id);
+
+        //First, check if there were multiple pages. If so, recursion until we got them all
+        response = JSON.parse(response);
+        if((response.startAt + 50) < response.total) {
+          getIssuesForSprint(sprintID, (startAtIndex + 50), sprintIssues);
+          console.log("recursion!");
+        }
+        console.log("response issues - " + response.issues);
+
+        response.issues.forEach(function(issue) {
+          sprintIssues.push(issue);
+        })
+
         resolve(response);
       },
       error: function() {
@@ -123,15 +151,14 @@ function setStoriesAdded(currentProcessingSprint) {
         reject(arguments);
       }
     });
-  });
+  }).then();
+
 }
 
-function checkForAddedIssues(response, currentProcessingSprintID) {
-  // convert the string response to JSON
-  response = JSON.parse(response);
+function checkForAddedIssues(issues, currentProcessingSprintID) {
 
-  for (var i = 0; i < response.issues.length; i++) {
-    var issue = response.issues[i];
+  for (var i = 0; i < issues.length; i++) {
+    var issue = issues[i];
 
     /*there are 2 ways we have to check for added stories
      * If created after a sprint started and it's in a sprint
