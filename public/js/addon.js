@@ -129,7 +129,7 @@ function getIssuesForSprint(sprintID, startAtIndex, sprintIssues) {
   return new Promise(function(resolve, reject) {
     AP.request({
       //future sprints are not needed
-      url: '/rest/agile/1.0/sprint/' + sprintID + '/issue?expand=changelog&fields=changelog,sprint,created,closedSprints,creator' + startAtString,
+      url: '/rest/agile/1.0/sprint/' + sprintID + '/issue?expand=changelog&jql=parent=EMPTY&fields=changelog,sprint,created,closedSprints,creator' + startAtString,
       success: function(response) {
 
         //First, check if there were multiple pages. If so, recursion until we got them all
@@ -138,13 +138,11 @@ function getIssuesForSprint(sprintID, startAtIndex, sprintIssues) {
         if((response.startAt + 50) < response.total) {
           getIssuesForSprint(sprintID, (startAtIndex + 50), sprintIssues).then(function(){
 
-            console.log("back from recursion!");
             response.issues.forEach(function(issue) {
               sprintIssues.push(issue);
             })
             resolve(response);
           });
-          console.log("recursion!");
         }
         else {
           response.issues.forEach(function(issue) {
@@ -152,12 +150,6 @@ function getIssuesForSprint(sprintID, startAtIndex, sprintIssues) {
           })
           resolve(response);
         }
-
-        /*response.issues.forEach(function(issue) {
-          sprintIssues.push(issue);
-        })
-
-        resolve(response);*/
       },
       error: function() {
         console.log(arguments);
