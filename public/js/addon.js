@@ -134,17 +134,30 @@ function getIssuesForSprint(sprintID, startAtIndex, sprintIssues) {
 
         //First, check if there were multiple pages. If so, recursion until we got them all
         response = JSON.parse(response);
+        console.log("response issues - " + response.issues);
         if((response.startAt + 50) < response.total) {
-          getIssuesForSprint(sprintID, (startAtIndex + 50), sprintIssues);
+          getIssuesForSprint(sprintID, (startAtIndex + 50), sprintIssues).then(function(){
+
+            console.log("back from recursion!");
+            response.issues.forEach(function(issue) {
+              sprintIssues.push(issue);
+            })
+            resolve(response);
+          });
           console.log("recursion!");
         }
-        console.log("response issues - " + response.issues);
+        else {
+          response.issues.forEach(function(issue) {
+            sprintIssues.push(issue);
+          })
+          resolve(response);
+        }
 
-        response.issues.forEach(function(issue) {
+        /*response.issues.forEach(function(issue) {
           sprintIssues.push(issue);
         })
 
-        resolve(response);
+        resolve(response);*/
       },
       error: function() {
         console.log(arguments);
