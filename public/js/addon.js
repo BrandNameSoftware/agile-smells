@@ -25,7 +25,8 @@ function getAllBoards(projectID) {
         var flattenedIssues = getLabelValuesForGraphing();
 
         var sprintMap = getNameToIDSprintsMap();
-        drawBarChart(flattenedIssues, projectID, sprintMap, response.values[0].id);
+        //drawBarChart(flattenedIssues, projectID, sprintMap, response.values[0].id);
+        drawTable();
       }).catch(function(error) {
         console.log(error);
       })
@@ -134,7 +135,6 @@ function getIssuesForSprint(sprintID, startAtIndex, sprintIssues) {
 
         //First, check if there were multiple pages. If so, recursion until we got them all
         response = JSON.parse(response);
-        console.log("response issues - " + response.issues);
         if((response.startAt + 50) < response.total) {
           getIssuesForSprint(sprintID, (startAtIndex + 50), sprintIssues).then(function(){
 
