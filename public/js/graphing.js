@@ -33,7 +33,7 @@ function drawBarChart(labelValueArray, projectKey, sprintIDMapping, boardID) {
   var xAxis = d3.axisBottom(xScale);
   var yAxis = d3.axisLeft(yScale).ticks(d3.max(labelValueArray, function(d) {
     return d.value;
-  }));
+  })/2);
 
 
   var tip = d3.tip()
