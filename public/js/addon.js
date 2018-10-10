@@ -26,7 +26,7 @@ function getAllBoards(projectID) {
 
         var sprintMap = getNameToIDSprintsMap();
         //drawBarChart(flattenedIssues, projectID, sprintMap, response.values[0].id);
-        drawTable();
+        drawTable(flattenedIssues, projectID, sprintMap, response.values[0].id);
       }).catch(function(error) {
         console.log(error);
       })
@@ -91,11 +91,29 @@ function getLabelValuesForGraphing() {
       "value": {
         value: Object.keys(issues).length,
         configurable: true
+      },
+      "points": {
+        value: sumIssuePoints(issues),
+        configurable: true
       }
     });
     valuesToGraph.push(valueToGraph);
   }
   return valuesToGraph;
+}
+
+function sumIssuePoints(issuesToSum) {
+  console.log(issuesToSum);
+  var summedPoints = 0;
+
+  Object.keys(issuesToSum).forEach(function(key) {
+    var sumIssue = issuesToSum[key];
+    //this custom field ID is what JIRA has for story points
+    if(sumIssue.fields.customfield_10019 && !isNaN(sumIssue.fields.customfield_10019)) {
+      summedPoints += sumIssue.fields.customfield_10019;
+    }
+  });
+  return summedPoints;
 }
 
 function getNameToIDSprintsMap() {
@@ -130,7 +148,7 @@ function getIssuesForSprint(sprintID, startAtIndex, sprintIssues) {
   return new Promise(function(resolve, reject) {
     AP.request({
       //future sprints are not needed
-      url: '/rest/agile/1.0/sprint/' + sprintID + '/issue?expand=changelog&jql=parent=EMPTY&fields=changelog,sprint,created,closedSprints,creator' + startAtString,
+      url: '/rest/agile/1.0/sprint/' + sprintID + '/issue?expand=changelog&jql=parent=EMPTY&fields=changelog,sprint,created,closedSprints,creator,customfield_10019' + startAtString,
       success: function(response) {
 
         //First, check if there were multiple pages. If so, recursion until we got them all

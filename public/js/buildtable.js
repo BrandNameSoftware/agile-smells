@@ -1,26 +1,7 @@
-function drawTable(/*labelValueArray, projectKey, sprintIDMapping, boardID*/) {
-  var data = [
-    { "date" : "2013-01-01", "close" : 45 },
-    { "date" : "2013-02-01", "close" : 50 },
-  	{ "date" : "2013-03-01", "close" : 55 },
-  	{ "date" : "2013-04-01", "close" : 50 },
-  	{ "date" : "2013-05-01", "close" : 45 },
-  	{ "date" : "2013-06-01", "close" : 50 },
-  	{ "date" : "2013-07-01", "close" : 50 },
-  	{ "date" : "2013-08-01", "close" : 55 }
-  ];
+function drawTable(labelValueArray, projectKey, sprintIDMapping, boardID) {
+    //TODO: add points added
+  var columns = ['label', 'value', 'points'];
 
-  tabulate(data, ['date', 'close']); // 2 column table
-
-  /*d3.json('/js/data.json', function (data) {
-    console.log("loaded json");
-  	// render the table(s)
-  	tabulate(data, ['date', 'close']); // 2 column table
-
-  });*/
-}
-
-function tabulate(data, columns) {
   var table = d3.select('.table').append('table')
   var thead = table.append('thead')
   var	tbody = table.append('tbody');
@@ -34,7 +15,7 @@ function tabulate(data, columns) {
 
   // create a row for each object in the data
   var rows = tbody.selectAll('tr')
-    .data(data)
+    .data(labelValueArray)
     .enter()
     .append('tr');
 
@@ -48,6 +29,7 @@ function tabulate(data, columns) {
     .enter()
     .append('td')
       .text(function (d) { return d.value; });
+}
 
-  return table;
+function tabulate(data, columns) {
 }
