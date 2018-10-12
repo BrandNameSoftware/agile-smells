@@ -28,9 +28,21 @@ function drawTable(labelValueArray, projectKey, sprintIDMapping, boardID) {
       });
     })
     .enter()
-    .append('td')
-    .text(function (d) { return d.value; });
-}
+    .append('td');
+    //.text(function (d) { return d.value; });
 
-function tabulate(data, columns) {
+    cells.filter(function(d, i) { return i === 0})
+		.append("a")
+    .attr("href", function(d) {
+      var sprintReportURL = "https://brandnamesoftware.atlassian.net/secure/RapidBoard.jspa?rapidView=" + boardID + "&projectKey=" + projectKey + "&view=reporting&chart=sprintRetrospective&sprint=" + sprintIDMapping[d.value];
+        return sprintReportURL;
+    })
+    .html(function(d) {
+        return (d.value);
+    });
+
+    cells.filter(function(d, i) { return i !== 0})
+      .html(function(d) {
+          return (d.value);
+      });
 }

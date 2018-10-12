@@ -83,7 +83,6 @@ function getLabelValuesForGraphing() {
   });
   for (var i = 0; i < sortedKeys.length; i++) {
     var issues = addedIssues[sortedKeys[i]];
-      console.log(issues);
     var valueToGraph = {};
     Object.defineProperties(valueToGraph, {
       "label": {
