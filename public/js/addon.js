@@ -3,7 +3,7 @@ function setData() {
   var rapidViewID = getAllBoards(projectID);
 }
 
-
+var fullSprintsToProcess;
 function getAllBoards(projectID) {
   var boardsToProcess = [];
   //TODO: I shouldn't be having to loop through all boards, I should have the board ID from context parm. I think there's a bug
@@ -56,6 +56,7 @@ function getAllSprints(boardID) {
         for (var i = 0; (i < response.values.length) && (i < maxSprints); i++) {
           sprintsToProcess.push(response.values[i]);
         }
+        fullSprintsToProcess = sprintsToProcess;
 
         var addedStoriesPromises = sprintsToProcess.map(setStoriesAdded);
 
@@ -82,6 +83,7 @@ function getLabelValuesForGraphing() {
   });
   for (var i = 0; i < sortedKeys.length; i++) {
     var issues = addedIssues[sortedKeys[i]];
+      console.log(issues);
     var valueToGraph = {};
     Object.defineProperties(valueToGraph, {
       "label": {
@@ -95,6 +97,14 @@ function getLabelValuesForGraphing() {
       "points": {
         value: sumIssuePoints(issues),
         configurable: true
+      },
+      "startDate": {
+        value: getStartDate(sortedKeys[i].substring(0,sortedKeys[i].indexOf("-"))),
+        configurable: true
+      },
+      "endDate": {
+        value: getEndDate(sortedKeys[i].substring(0,sortedKeys[i].indexOf("-"))),
+        configurable: true
       }
     });
     valuesToGraph.push(valueToGraph);
@@ -102,8 +112,29 @@ function getLabelValuesForGraphing() {
   return valuesToGraph;
 }
 
+function getStartDate(sprintID) {
+  var startDate = '';
+  for(var i = 0; i < fullSprintsToProcess.length; i++){
+    if(fullSprintsToProcess[i].id == sprintID){
+      startDate = moment(fullSprintsToProcess[i].startDate).format('YYYY-MM-DD');
+      break;
+    }
+  }
+  return startDate;
+}
+
+function getEndDate(sprintID) {
+  var endDate = '';
+  for(var i = 0; i < fullSprintsToProcess.length; i++){
+    if(fullSprintsToProcess[i].id == sprintID){
+      endDate = moment(fullSprintsToProcess[i].endDate).format('YYYY-MM-DD');
+      break;
+    }
+  }
+  return endDate;
+}
+
 function sumIssuePoints(issuesToSum) {
-  console.log(issuesToSum);
   var summedPoints = 0;
 
   Object.keys(issuesToSum).forEach(function(key) {

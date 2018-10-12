@@ -1,15 +1,16 @@
 function drawTable(labelValueArray, projectKey, sprintIDMapping, boardID) {
     //TODO: add points added
-  var columns = ['label', 'value', 'points'];
+  var columnProps = ['label', 'value', 'points', 'startDate', 'endDate'];
+  var columnLabels = ['Sprint Name', 'Stories Added', 'Points Added', 'Start Date', 'End Date'];
 
-  var table = d3.select('.table').append('table')
-  var thead = table.append('thead')
+  var table = d3.select('.table').append('table').attr("class", "aui");
+  var thead = table.append('thead');
   var	tbody = table.append('tbody');
 
   // append the header row
   thead.append('tr')
     .selectAll('th')
-    .data(columns).enter()
+    .data(columnLabels).enter()
     .append('th')
       .text(function (column) { return column; });
 
@@ -22,13 +23,13 @@ function drawTable(labelValueArray, projectKey, sprintIDMapping, boardID) {
   // create a cell in each row for each column
   var cells = rows.selectAll('td')
     .data(function (row) {
-      return columns.map(function (column) {
+      return columnProps.map(function (column) {
         return {column: column, value: row[column]};
       });
     })
     .enter()
     .append('td')
-      .text(function (d) { return d.value; });
+    .text(function (d) { return d.value; });
 }
 
 function tabulate(data, columns) {

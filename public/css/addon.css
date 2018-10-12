@@ -1,5 +1,13 @@
 /* add-on styles */
 
+th{
+  background-color: #fff;
+  color: #6c798f;
+  padding: 4px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
 .bar {
   fill: #14892c;
 }
