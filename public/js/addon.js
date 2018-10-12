@@ -25,7 +25,7 @@ function getAllBoards(projectID) {
         var flattenedIssues = getLabelValuesForGraphing();
 
         var sprintMap = getNameToIDSprintsMap();
-        //drawBarChart(flattenedIssues, projectID, sprintMap, response.values[0].id);
+        drawBarChart(flattenedIssues, projectID, sprintMap, response.values[0].id);
         drawTable(flattenedIssues, projectID, sprintMap, response.values[0].id);
       }).catch(function(error) {
         console.log(error);
