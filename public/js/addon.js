@@ -1,5 +1,7 @@
 function setData() {
-  var projectID = getParameterByName('project.id');;
+  var licenseStatus = getParameterByName('lic');
+  console.log("licenseStatus = " + licenseStatus);
+  var projectID = getParameterByName('project.id');
   var rapidViewID = getAllBoards(projectID);
 }
 

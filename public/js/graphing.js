@@ -68,7 +68,7 @@ function drawBarChart(labelValueArray, projectKey, sprintIDMapping, boardID) {
     .data(labelValueArray)
     .enter()
     .append("a")
-    .attr("xlink:href", function(d) {return "https://brandnamesoftware.atlassian.net/secure/RapidBoard.jspa?rapidView=" + boardID + "&projectKey=" + projectKey + "&view=reporting&chart=sprintRetrospective&sprint=" + sprintIDMapping[d.label]})
+    .attr("xlink:href", function(d) {return "/secure/RapidBoard.jspa?rapidView=" + boardID + "&projectKey=" + projectKey + "&view=reporting&chart=sprintRetrospective&sprint=" + sprintIDMapping[d.label]})
     .attr("target", function(d) {return "_parent"})
     .append("rect")
     .attr("class", "bar")

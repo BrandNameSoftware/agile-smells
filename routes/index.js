@@ -23,7 +23,6 @@ module.exports = function (app, addon) {
             // and a json object to pass the context in
             res.render('changed-issues-report', {
                 title: 'graph'
-                //issueId: req.query['issueId']
             });
         }
     );
