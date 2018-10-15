@@ -64,12 +64,13 @@ function drawBarChart(labelValueArray, projectKey, sprintIDMapping, boardID) {
     .attr("class", "axisLabel")
     .text("Number of issues");
 
+
   chart.selectAll(".bar")
     .data(labelValueArray)
     .enter()
-    .append("a")
+    /*.append("a")
     .attr("xlink:href", function(d) {return "/secure/RapidBoard.jspa?rapidView=" + boardID + "&projectKey=" + projectKey + "&view=reporting&chart=sprintRetrospective&sprint=" + sprintIDMapping[d.label]})
-    .attr("target", function(d) {return "_parent"})
+    .attr("target", function(d) {return "_parent"})*/
     .append("rect")
     .attr("class", "bar")
     .attr("x", function(d) {
