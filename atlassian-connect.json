@@ -26,7 +26,7 @@
         {
           "key": "issues-added-to-sprints-report",
           "name": {
-      		    "value": "Issues added to sprints"
+      		    "value": "Issues added during sprints"
         	},
         	"description": {
         		"value": "See how much scope is changing during an iteration. This will help understand if the team's goals are constantly in flux."

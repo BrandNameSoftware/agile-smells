@@ -27,6 +27,15 @@ module.exports = function (app, addon) {
         }
     );
 
+    app.get('/unauthorized', addon.authenticate(), function (req, res) {
+            // Rendering a template is easy; the `render()` method takes two params: name of template
+            // and a json object to pass the context in
+            res.render('unauthorized', {
+                title: 'Invalid license'
+            });
+        }
+    );
+
     // Add any additional route handlers you need for views or REST resources here...
 
 

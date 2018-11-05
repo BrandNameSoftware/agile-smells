@@ -1,7 +1,11 @@
 function setData() {
   var licenseStatus = getParameterByName('lic');
+  if(licenseStatus != 'active') {
+    window.location="/unauthorized";
+  }
   console.log("licenseStatus = " + licenseStatus);
   var projectID = getParameterByName('project.id');
+  console.log("proj ID - " + projectID);
   var rapidViewID = getAllBoards(projectID);
 }
 
